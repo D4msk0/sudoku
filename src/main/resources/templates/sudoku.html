@@ -11,6 +11,7 @@
             height: 100vh;
             margin: 0;
             flex-direction: column; /* Adjust flex direction */
+            background-color: #add8e6; /* Set light blue background color */
         }
 
         h1 {
@@ -22,6 +23,7 @@
             width: 300px; /* Set the desired width for the Sudoku board */
             height: 300px; /* Set the desired height for the Sudoku board */
             margin-bottom: 20px; /* Add margin to separate the Sudoku from the form */
+            background-color: #fff; /* Set white background for the Sudoku board */
         }
 
         td {
@@ -30,6 +32,11 @@
             font-size: 1.5em; /* Adjust font size as needed */
             border: 1px solid #000; /* Add border for visibility */
             box-sizing: border-box; /* Include borders in width and height calculations */
+            background-color: #fff; /* Set white background for each cell */
+        }
+
+        td:not(:empty) {
+            background-color: #f0f0f0; /* Set light grey background for cells with content */
         }
 
         tr:nth-child(3n+1) td {
