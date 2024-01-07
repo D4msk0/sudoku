@@ -39,14 +39,12 @@
             background-color: #E0E0E0; /* Set light grey background for cells with initial puzzle digits */
         }
 
-
         tr:nth-child(3n+1) td {
             border-top: 3px solid #000; /* Bold top border for every 3rd row */
         }
         tr:last-child td {
             border-bottom: 3px solid #000;
         }
-
 
         td:nth-child(3n+1) {
             border-left: 3px solid #000; /* Bold left border for every 3rd column */
@@ -63,27 +61,41 @@
 <body>
 <h1>Sudoku Game</h1>
 
-<table>
+<table id="sudokuTable">
     <tr th:each="row, rowStat : ${sudokuBoard}">
-        <td th:each="cell, colStat : ${row}" th:class="${cell != 0} ? 'initial' : ''">
-            <span th:text="${cell == 0 ? '' : cell}"></span>
+        <td th:each="cell, colStat : ${row}" th:class="${cell != 0} ? 'initial' : ''" th:id="${'cell_' + rowStat.index + '_' + colStat.index}">
+            <span th:utext="${cell == 0 ? '' : (cell != 0 && cell == sudokuBoard[rowStat.index][colStat.index]) ? '<b>' + cell + '</b>' : cell}"></span>
         </td>
     </tr>
 </table>
-
-
-<!--<form method="post" action="/sudoku/makeMove">-->
-<!--    <label for="row">Row:</label>-->
-<!--    <input type="number" id="row" name="row" min="0" max="8" required>-->
-<!--    <br>-->
-<!--    <label for="col">Column:</label>-->
-<!--    <input type="number" id="col" name="col" min="0" max="8" required>-->
-<!--    <br>-->
-<!--    <label for="value">Value:</label>-->
-<!--    <input type="number" id="value" name="value" min="1" max="9" required>-->
-<!--    <br>-->
-<!--    <input type="submit" value="Make Move">-->
-<!--</form>-->
-
 </body>
+
+<script>
+    var sudokuTable = document.getElementById('sudokuTable');
+
+    sudokuTable.addEventListener('input', function (event) {
+        if (event.target.tagName === 'TD' && !event.target.classList.contains('initial')) {
+            // Input event on a non-initial cell
+            var span = event.target.querySelector('span');
+            var value = span.textContent.trim();
+
+            if (/^[1-9]$/.test(value)) {
+                // Validate input: Check if the entered value is a digit from 1 to 9
+                span.innerHTML = '<b>' + value + '</b>';
+            } else {
+                // Clear the cell if the entered value is not valid
+                span.textContent = '';
+            }
+        }
+    });
+
+    sudokuTable.addEventListener('click', function (event) {
+        if (event.target.tagName === 'TD' && !event.target.classList.contains('initial')) {
+            // Click event on a non-initial cell
+            event.target.contentEditable = true; // Enable editing
+            event.target.focus();
+        }
+    });
+</script>
+
 </html>

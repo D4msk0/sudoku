@@ -2,7 +2,6 @@ package com.damsko.sudoku.controller;
 
 import com.damsko.sudoku.model.SudokuGame;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
