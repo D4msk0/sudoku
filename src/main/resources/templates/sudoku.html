@@ -33,10 +33,15 @@
             border: 1px solid #000; /* Add border for visibility */
             box-sizing: border-box; /* Include borders in width and height calculations */
             background-color: #fff; /* Set white background for each cell */
+            cursor: pointer; /* Add pointer cursor for clickable cells */
         }
 
         td.initial {
             background-color: #E0E0E0; /* Set light grey background for cells with initial puzzle digits */
+        }
+
+        td.selected {
+            border: 2px solid #000; /* Add bold border for selected cells */
         }
 
         tr:nth-child(3n+1) td {
@@ -56,6 +61,10 @@
         form {
             text-align: center;
         }
+
+        span[contenteditable] {
+            caret-color: transparent; /* Hide the cursor */
+        }
     </style>
 </head>
 <body>
@@ -73,27 +82,57 @@
 <script>
     var sudokuTable = document.getElementById('sudokuTable');
 
-    sudokuTable.addEventListener('input', function (event) {
-        if (event.target.tagName === 'TD' && !event.target.classList.contains('initial')) {
-            // Input event on a non-initial cell
-            var span = event.target.querySelector('span');
-            var value = span.textContent.trim();
+    function handleCellInput(span) {
+        var value = span.textContent.trim();
 
-            if (/^[1-9]$/.test(value)) {
-                // Validate input: Check if the entered value is a digit from 1 to 9
-                span.innerHTML = '<b>' + value + '</b>';
-            } else {
-                // Clear the cell if the entered value is not valid
-                span.textContent = '';
-            }
+        if (/^[1-9]$/.test(value)) {
+            // Validate input: Check if the entered value is a digit from 1 to 9
+            span.innerHTML = '<b>' + value + '</b>';
+        } else {
+            // Clear the cell if the entered value is not valid
+            span.textContent = '';
+        }
+    }
+
+    function handleCellClick(td) {
+        // Deselect all other cells
+        var selectedCells = sudokuTable.getElementsByClassName('selected');
+        for (var i = 0; i < selectedCells.length; i++) {
+            selectedCells[i].classList.remove('selected');
+        }
+
+        // Click event on a non-initial cell
+        var span = td.querySelector('span');
+
+        // Toggle the 'selected' class for the clicked cell
+        td.classList.toggle('selected');
+
+        // Add the 'contenteditable' attribute dynamically
+        span.setAttribute('contenteditable', 'true');
+
+        // Focus on the span element
+        span.focus();
+
+        // Add an input event listener to handle the cell input
+        span.addEventListener('input', function (inputEvent) {
+            handleCellInput(span);
+        });
+    }
+
+    sudokuTable.addEventListener('input', function (event) {
+        if (event.target.tagName === 'SPAN' && !event.target.parentElement.classList.contains('initial')) {
+            // Input event on a non-initial cell
+            handleCellInput(event.target);
         }
     });
 
     sudokuTable.addEventListener('click', function (event) {
-        if (event.target.tagName === 'TD' && !event.target.classList.contains('initial')) {
-            // Click event on a non-initial cell
-            event.target.contentEditable = true; // Enable editing
-            event.target.focus();
+        if (event.target.tagName === 'TD') {
+            // Click event on a cell
+            if (!event.target.classList.contains('initial')) {
+                // Click event on a non-initial cell
+                handleCellClick(event.target);
+            }
         }
     });
 </script>
