@@ -35,16 +35,24 @@
             background-color: #fff; /* Set white background for each cell */
         }
 
-        td:not(:empty) {
-            background-color: #f0f0f0; /* Set light grey background for cells with content */
+        td.initial {
+            background-color: #E0E0E0; /* Set light grey background for cells with initial puzzle digits */
         }
+
 
         tr:nth-child(3n+1) td {
             border-top: 3px solid #000; /* Bold top border for every 3rd row */
         }
+        tr:last-child td {
+            border-bottom: 3px solid #000;
+        }
+
 
         td:nth-child(3n+1) {
             border-left: 3px solid #000; /* Bold left border for every 3rd column */
+        }
+        td:last-child {
+            border-right: 3px solid #000;
         }
 
         form {
@@ -57,24 +65,25 @@
 
 <table>
     <tr th:each="row, rowStat : ${sudokuBoard}">
-        <td th:each="cell, colStat : ${row}">
-            <span th:text="${cell}"></span>
+        <td th:each="cell, colStat : ${row}" th:class="${cell != 0} ? 'initial' : ''">
+            <span th:text="${cell == 0 ? '' : cell}"></span>
         </td>
     </tr>
 </table>
 
-<form method="post" action="/sudoku/makeMove">
-    <label for="row">Row:</label>
-    <input type="number" id="row" name="row" min="0" max="8" required>
-    <br>
-    <label for="col">Column:</label>
-    <input type="number" id="col" name="col" min="0" max="8" required>
-    <br>
-    <label for="value">Value:</label>
-    <input type="number" id="value" name="value" min="1" max="9" required>
-    <br>
-    <input type="submit" value="Make Move">
-</form>
+
+<!--<form method="post" action="/sudoku/makeMove">-->
+<!--    <label for="row">Row:</label>-->
+<!--    <input type="number" id="row" name="row" min="0" max="8" required>-->
+<!--    <br>-->
+<!--    <label for="col">Column:</label>-->
+<!--    <input type="number" id="col" name="col" min="0" max="8" required>-->
+<!--    <br>-->
+<!--    <label for="value">Value:</label>-->
+<!--    <input type="number" id="value" name="value" min="1" max="9" required>-->
+<!--    <br>-->
+<!--    <input type="submit" value="Make Move">-->
+<!--</form>-->
 
 </body>
 </html>
