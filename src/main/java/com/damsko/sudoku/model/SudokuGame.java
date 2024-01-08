@@ -7,15 +7,15 @@ public class SudokuGame {
 
     private int[][] board;
 
-    public SudokuGame(){
+    public SudokuGame() {
         initializeBoard();
     }
 
-    public int[][] getBoard(){
+    public int[][] getBoard() {
         return board;
     }
 
-    private void initializeBoard(){
+    private void initializeBoard() {
         // Simple example: Initialize the board with an empty Sudoku puzzle
         board = new int[][]{
                 {5, 3, 0, 0, 7, 0, 0, 0, 0},
