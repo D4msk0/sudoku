@@ -24,12 +24,4 @@ public class SudokuController {
         model.addAttribute("sudokuBoard", sudokuGame.getBoard());
         return "sudoku"; // Name of the HTML template
     }
-
-    @PostMapping("/makeMove")
-    public String makeMove(int row, int col, int value, Model model) {
-        sudokuGame.makeMove(row, col, value);
-        model.addAttribute("sudokuBoard", sudokuGame.getBoard());
-        return "sudoku"; // Redirect back to the Sudoku page
-    }
-
 }

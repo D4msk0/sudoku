@@ -15,11 +15,6 @@ public class SudokuGame {
         return board;
     }
 
-    public void makeMove(int row, int col, int value) {
-        // Implement logic to make a move in the Sudoku game
-        // You might want to validate the move and update the board
-    }
-
     private void initializeBoard(){
         // Simple example: Initialize the board with an empty Sudoku puzzle
         board = new int[][]{
